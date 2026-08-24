@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investfy — Painel de Cotações B3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Faixa de ticker rolando -->
+  <div class="ticker-tape" aria-hidden="true">
+    <div class="ticker-track" id="ticker-track">
+      <!-- preenchido via JS -->
+    </div>
+  </div>
+
+  <main class="wrap">
+    <header class="masthead">
+      <span class="eyebrow">B3 · Bolsa de Valores do Brasil</span>
+      <h1>Investfy</h1>
+      <p class="subtitle">Consulte a cotação em tempo real de ações negociadas na B3.</p>
+    </header>
+
+    <section class="console" aria-label="Consulta de ativo">
+      <label for="ticker-select">Ativo</label>
+      <div class="console-row">
+        <select id="ticker-select">
+          <option value="PETR4">PETR4 — Petrobras</option>
+          <option value="VALE3">VALE3 — Vale</option>
+          <option value="ITUB4">ITUB4 — Itaú Unibanco</option>
+          <option value="MGLU3">MGLU3 — Magazine Luiza</option>
+        </select>
+        <button id="btn-consultar" type="button">Consultar</button>
+      </div>
+      <p class="console-hint">Disponíveis sem autenticação. Amplie a lista com um token gratuito da Brapi.</p>
+    </section>
+
+    <section id="resultado" class="resultado" aria-live="polite">
+      <div class="placeholder">
+        <span class="placeholder-glyph">▲▼</span>
+        <p>Escolha um ativo e clique em Consultar para ver a cotação.</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Dados fornecidos pela <a href="https://brapi.dev" target="_blank" rel="noopener">Brapi</a>. Uso educacional — não constitui recomendação de investimento.</p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
