@@ -197,9 +197,11 @@ body {
 }
 
 .quote-name {
+.quote-updated {
   color: var(--muted);
-  font-size: 0.9rem;
-  margin: 0 0 22px;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  margin: -16px 0 22px;
 }
 
 .quote-price {

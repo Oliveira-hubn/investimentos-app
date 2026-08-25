@@ -52,6 +52,7 @@ async function buscarCotacao(ticker) {
 
 function renderizarCotacao(ativo) {
   document.title = `${ativo.symbol} — Investfy`;
+  const horaAtualizacao = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
   const variacao = ativo.regularMarketChangePercent;
   const emAlta = typeof variacao === "number" && variacao >= 0;
 
@@ -61,6 +62,7 @@ function renderizarCotacao(ativo) {
         <span class="quote-symbol">${ativo.symbol ?? "—"}</span>
       </div>
       <p class="quote-name">${ativo.longName ?? ativo.shortName ?? "Nome não disponível"}</p>
+      <p class="quote-updated">Atualizado às ${horaAtualizacao}</p>
 
       <div class="quote-price">${formatBRL(ativo.regularMarketPrice)}</div>
       <span class="quote-change ${emAlta ? "up" : "down"}">
