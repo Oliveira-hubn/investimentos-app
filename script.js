@@ -24,6 +24,7 @@ const formatVolume = (valor) =>
 async function buscarCotacao(ticker) {
   areaResultado.innerHTML = `<div class="placeholder"><span class="placeholder-glyph">···</span><p>Consultando ${ticker}...</p></div>`;
   btnConsultar.disabled = true;
+  btnConsultar.textContent = "Consultando...";
 
   try {
     const resposta = await fetch(`https://brapi.dev/api/quote/${ticker}`);
@@ -43,8 +44,9 @@ async function buscarCotacao(ticker) {
   } catch (erro) {
     console.error("Erro ao buscar cotação:", erro);
     renderizarErro();
-  } finally {
+   } finally {
     btnConsultar.disabled = false;
+    btnConsultar.textContent = "Consultar";
   }
 }
 
