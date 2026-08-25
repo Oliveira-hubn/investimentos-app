@@ -49,6 +49,7 @@ async function buscarCotacao(ticker) {
 }
 
 function renderizarCotacao(ativo) {
+  document.title = `${ativo.symbol} — Investfy`;
   const variacao = ativo.regularMarketChangePercent;
   const emAlta = typeof variacao === "number" && variacao >= 0;
 
