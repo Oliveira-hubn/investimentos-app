@@ -51,5 +51,96 @@
   </main>
 
   <script src="script.js"></script>
+  <script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+  const supabase = createClient(
+    "https://fmsgerwswajeajcoupdm.supabase.co",
+    "sb_publishable_4atuXla_MnOl6Hu4E0ipmA_bSvh4DUo"
+  );
+
+  const lista = document.getElementById("fav-lista");
+  const status = document.getElementById("fav-status");
+
+  // CREATE: salva um ativo favorito (busca o preço atual na Brapi)
+  async function favoritarAtivo(ticker) {
+    status.textContent = "Salvando...";
+    let preco = null;
+    try {
+      const r = await fetch(`https://brapi.dev/api/quote/${ticker}`);
+      const j = await r.json();
+      preco = j.results?.[0]?.regularMarketPrice ?? null;
+    } catch (e) { /* salva mesmo sem o preço */ }
+
+    const { error } = await supabase.from("favoritos").insert({
+      nome_item: ticker,
+      dados_extra: { preco_ao_favoritar: preco },
+    });
+
+    if (error) {
+      console.error(error);
+      status.textContent = "Erro ao salvar: " + error.message;
+      return;
+    }
+    status.textContent = "";
+    listarFavoritos();
+  }
+
+  // READ: lista os favoritos
+  async function listarFavoritos() {
+    const { data, error } = await supabase
+      .from("favoritos")
+      .select("*")
+      .order("criado_em", { ascending: false });
+
+    if (error) {
+      console.error(error);
+      status.textContent = "Erro ao carregar: " + error.message;
+      return;
+    }
+    renderizarFavoritos(data);
+  }
+
+  // DELETE: remove um favorito
+  async function removerFavorito(id) {
+    const { error } = await supabase.from("favoritos").delete().eq("id", id);
+    if (error) {
+      console.error(error);
+      status.textContent = "Erro ao remover: " + error.message;
+      return;
+    }
+    listarFavoritos();
+  }
+
+  // Desenha a lista na tela
+  function renderizarFavoritos(itens) {
+    lista.innerHTML = "";
+    if (!itens.length) {
+      lista.innerHTML = "<li class='fav-vazio'>Nenhum favorito ainda.</li>";
+      return;
+    }
+    itens.forEach((item) => {
+      const li = document.createElement("li");
+
+      const texto = document.createElement("span");
+      const preco = item.dados_extra?.preco_ao_favoritar;
+      texto.textContent =
+        item.nome_item + (preco ? ` — R$ ${Number(preco).toFixed(2)} ao favoritar` : "");
+
+      const btn = document.createElement("button");
+      btn.textContent = "Remover";
+      btn.addEventListener("click", () => removerFavorito(item.id));
+
+      li.append(texto, btn);
+      lista.appendChild(li);
+    });
+  }
+
+  document.getElementById("fav-adicionar").addEventListener("click", () => {
+    favoritarAtivo(document.getElementById("fav-ticker").value);
+  });
+
+  listarFavoritos();
+</script>
 </body>
 </html>
