@@ -285,3 +285,14 @@ body {
   .quote-price { font-size: 2.1rem; }
   .quote-grid { grid-template-columns: 1fr; }
 }
+
+#favoritos-secao { max-width: 500px; margin: 24px auto; padding: 16px; }
+.fav-form { display: flex; gap: 8px; margin-bottom: 12px; }
+#fav-lista { list-style: none; padding: 0; }
+#fav-lista li {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; margin-bottom: 6px;
+  border: 1px solid #ccc; border-radius: 8px;
+}
+.fav-vazio { color: #888; justify-content: center !important; }
+#fav-status { color: #c0392b; min-height: 1em; }
